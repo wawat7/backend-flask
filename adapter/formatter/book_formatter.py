@@ -3,7 +3,7 @@ from models.book_model import Book
 
 def format_book(book):
     return Book(**{
-        "id": book['_id'],
+        "id": book['id'],
         "name": book['name']
     })
     

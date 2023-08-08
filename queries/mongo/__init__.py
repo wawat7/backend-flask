@@ -19,5 +19,12 @@ class MongoDB(AbstractDatabase):
         self.client = self.client[self.database]
 
     def find_books(self):
-        return [format_book(book) for book in self.client.books.find()]
+        return [format_book(self.normalize(book)) for book in self.client.books.find()]
+    
+    def normalize(self, book):
+        return {
+            "id": str(book['_id']),
+            "name": book['name']
+        }
+        
     

@@ -4,6 +4,6 @@ class Book:
     
     def __init__(self, id, name):
         self.id = id
-        self.namme = name
+        self.name = name
     
     
