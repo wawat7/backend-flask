@@ -1,0 +1,11 @@
+# requirements.txt
+pymongo==4.4.1
+requests==2.31.0
+pydantic==2.1.1
+pydantic-settings==2.0.2
+python-dotenv==1.0.0
+Flask==2.3.2
+Flask-Inputs==0.3.0
+Werkzeug==2.3.6
+jsonschema==4.18.6
+mysql-connector-python==8.1.0
