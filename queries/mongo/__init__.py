@@ -5,10 +5,12 @@ from schemas.book.create_book_schema import CreateBookSchema
 from schemas.book.update_book_schema import UpdateBookSchema
 from bson.objectid import ObjectId
 class MongoDB(AbstractDatabase):
-    def __init__(self, host, port, database):
+    def __init__(self, host, port, database, username, password):
         self.host = host
         self.port = port
         self.database = database
+        self.username = username
+        self.password = password
         self.client = None
         self.collection = None
 
@@ -16,8 +18,8 @@ class MongoDB(AbstractDatabase):
         self.client = MongoClient(**{
             "host": self.host,
             "port":  self.port,
-            "username": "mongo",
-            "password": "mongo"
+            "username": self.username,
+            "password": self.password
         })
         self.client = self.client[self.database]
         
