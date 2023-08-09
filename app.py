@@ -6,11 +6,11 @@ from routes.v1 import register_routes
 
 def create_app():
 
-    # database = MongoDB(**{
-    #     "host": "localhost",
-    #     "port": 27018,
-    #     "database": "bookstore",
-    # })
+    database = MongoDB(**{
+        "host": "localhost",
+        "port": 27018,
+        "database": "bookstore",
+    })
     
     # database = SqlDB(**{
     #     "host": "localhost",

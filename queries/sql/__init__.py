@@ -1,5 +1,7 @@
 from queries import AbstractDatabase
 import mysql.connector
+from adapter.transform.book_transform import transform_book
+from utils.formatter.book_formatter import format_book
 
 class SqlDB(AbstractDatabase):
     def __init__(self, host, port, database):
@@ -22,4 +24,10 @@ class SqlDB(AbstractDatabase):
         cursor.execute(f"SELECT * FROM books_table")
         data = cursor.fetchall()
         cursor.close()
-        return [book for book in data]
+        return [format_book(self.normalize(book)) for book in data]
+    
+    def normalize(self, book):
+        return {
+            "id": book[0],
+            "name": book[1]
+        }
