@@ -1,10 +1,7 @@
 from routes.v1.book_route import book_route
-from flask import Flask
+from flask_restx import Api
 
-def register_routes(app: Flask, db):
+def register_routes(api: Api, db):
     prefix = '/api/v1'
 
-    book_route(app, db, prefix)
-
-
-
+    book_route(api, db, prefix)

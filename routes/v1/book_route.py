@@ -1,30 +1,41 @@
 from flask import Flask, request, Blueprint
 from controllers.book_controller import BookController
-from schemas.book.create_book_schema import CreateBookSchema
+from flask_restx import Api, Resource, Namespace, fields
+from adapter.swagger.models.create_book_model import CreateBookModel
 
 
-def book_route(app: Flask, db, prefix):
+def book_route(api: Api, db, prefix):
     controller = BookController(db)
-    book_blueprint = Blueprint('books', __name__)
+    
+    book_namespace = Namespace('Book', path=f'{prefix}/books', description="List endpoint books")
+    book_model = CreateBookModel.swag(api)
+    
+    @book_namespace.route('/')
+    class BookList(Resource):
+        @book_namespace.doc(description="Get all books")
+        def get(self):
+            return controller.get_all_books()
 
-    @book_blueprint.route('/', methods=['GET'])
-    def get_all_books():
-        return controller.get_all_books()
+        @book_namespace.doc(description="Create a new book")
+        @book_namespace.expect(book_model)
+        def post(self):
+            return controller.create_book(request)
+        
+        
+    @book_namespace.route('/<id>')
+    class BookDetail(Resource):
+        @book_namespace.doc(description="get book by id")
+        def get(self, id: str):
+            return controller.find_by_id(id)
+            
+        @book_namespace.doc(description="update book by id")
+        @book_namespace.expect(book_model)
+        def put(self, id: str):
+            return controller.update_book_by_id(id, request)
 
-    @book_blueprint.route('/<id>', methods=['GET'])
-    def get_book_by_id(id: str):
-        return controller.find_by_id(id)
-
-    @book_blueprint.route('/', methods=['POST'])
-    def create_book():
-        return controller.create_book(request)
-
-    @book_blueprint.route('/<id>', methods=['PUT'])
-    def update_book(id: str):
-        return controller.update_book_by_id(id, request)
-
-    @book_blueprint.route('/<id>', methods=['DELETE'])
-    def delete_book(id: str):
-        return controller.delete_book_by_id(id)
-
-    app.register_blueprint(book_blueprint, url_prefix=f"{prefix}/books")
+        @book_namespace.doc(description="delete book by id")
+        def delete(self, id: str):
+            return controller.delete_book_by_id(id)  
+        
+    api.add_namespace(book_namespace)
+    
