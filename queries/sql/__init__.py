@@ -1,7 +1,7 @@
 from queries import AbstractDatabase
 import mysql.connector
 from adapter.transform.book_transform import transform_book
-from utils.formatter.book_formatter import format_book
+from adapter.formatter.book_formatter import format_book
 from schemas.book.create_book_schema import CreateBookSchema
 from schemas.book.update_book_schema import UpdateBookSchema
 

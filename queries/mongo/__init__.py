@@ -1,6 +1,6 @@
 from queries import AbstractDatabase
 from pymongo import MongoClient
-from utils.formatter.book_formatter import format_book
+from adapter.formatter.book_formatter import format_book
 from schemas.book.create_book_schema import CreateBookSchema
 from schemas.book.update_book_schema import UpdateBookSchema
 from bson.objectid import ObjectId
