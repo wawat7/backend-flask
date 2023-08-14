@@ -25,7 +25,6 @@ def book_route(app: Flask, db, prefix):
 
     @book_blueprint.route('/<id>', methods=['DELETE'])
     def delete_book(id: str):
-        controller.delete_book_by_id(id)
-        return {}
+        return controller.delete_book_by_id(id)
 
     app.register_blueprint(book_blueprint, url_prefix=f"{prefix}/books")

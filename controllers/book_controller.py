@@ -4,6 +4,9 @@ from adapter.transform.book_transform import transform_book, transform_books
 from schemas.book.create_book_schema import CreateBookSchema
 from schemas.book.update_book_schema import UpdateBookSchema
 from flask import request
+from adapter.response.success_response import success_response
+from adapter.requests.book.create_book_request import CreateBookValidator
+from adapter.response.bad_request import bad_request_response
 
 class BookController:
     book_repo: BookRepository
@@ -15,25 +18,36 @@ class BookController:
         
     
     def get_all_books(self):
-        return transform_books(self.book_service.get_all())
+        return success_response(transform_books(self.book_service.get_all()), 'list books')
     
     def find_by_id(self, id: str):
-        return transform_book(self.book_service.find_by_id(id))
+        return success_response(transform_book(self.book_service.find_by_id(id)), 'detail book')
     
     def create_book(self, request: request):
+        validator = CreateBookValidator(request)
+        
+        if not validator.validate():
+            return bad_request_response('BAD REQUEST', validator.errors)
+        
         payload = request.get_json()
         inserted_id = self.book_service.create(CreateBookSchema(**{
             "name": payload['name']
         }))
-        return transform_book(self.book_service.find_by_id(inserted_id))
+        return success_response(transform_book(self.book_service.find_by_id(inserted_id)), 'create book successfully')
     
     def update_book_by_id(self, id: str, request: request):
+        validator = CreateBookValidator(request)
+        
+        if not validator.validate():
+            return bad_request_response('BAD REQUEST', validator.errors)
+        
         payload = request.get_json()
         self.book_service.update_by_id(id, UpdateBookSchema(**{
             "name": payload['name']
         }))
-        return transform_book(self.book_service.find_by_id(id))
+        return success_response(transform_book(self.book_service.find_by_id(id)), 'update book successfully')
     
     def delete_book_by_id(self, id: str):
         self.book_service.delete_by_id(id)
+        return success_response({}, 'delete book successfully')
         

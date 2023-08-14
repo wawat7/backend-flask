@@ -6,21 +6,21 @@ from routes.v1 import register_routes
 
 def create_app():
 
-    # database = MongoDB(**{
-    #     "host": "localhost",
-    #     "port": 27018,
-    #     "database": "bookstore",
-    #     "username": "mongo",
-    #     "password": "mongo"
-    # })
-    
-    database = SqlDB(**{
+    database = MongoDB(**{
         "host": "localhost",
-        "port": 3306,
+        "port": 27018,
         "database": "bookstore",
-        "username": "root",
-        "password": "root"
+        "username": "mongo",
+        "password": "mongo"
     })
+    
+    # database = SqlDB(**{
+    #     "host": "localhost",
+    #     "port": 3306,
+    #     "database": "bookstore",
+    #     "username": "root",
+    #     "password": "root"
+    # })
     
     database.connect()
     
@@ -36,9 +36,3 @@ def create_app():
         return {"message": "app running well..."}
 
     return app
-    
-    
-    
-    
-    
-create_app()
