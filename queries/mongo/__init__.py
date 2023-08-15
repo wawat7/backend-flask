@@ -26,15 +26,20 @@ class MongoDB(AbstractDatabase):
     def normalize(self, book):
         return {
             "id": str(book['_id']),
-            "name": book['name']
+            "name": book['name'],
+            "created_at": book['created_at'] if 'created_at' in book else None,
+            "updated_at": book['updated_at'] if 'updated_at' in book else None,
         }
 
     def find_books(self):
+        print(self.client.books.find())
         return [format_book(self.normalize(book)) for book in self.client.books.find()]
     
     def create_book(self, book: CreateBookSchema):
         return self.client.books.insert_one({
-            "name": book.name
+            "name": book.name,
+            "created_at": book.created_at,
+            "updated_at": book.updated_at
         }).inserted_id
     
     def find_by_id_book(self, id: str):
@@ -48,7 +53,8 @@ class MongoDB(AbstractDatabase):
             "_id": ObjectId(id),
         }, {
             "$set": {
-                "name": book.name
+                "name": book.name,
+                "updated_at": book.updated_at
             }
         })
         

@@ -7,7 +7,7 @@ from schemas.book.update_book_schema import UpdateBookSchema
 
 
 class SqlDB(AbstractDatabase):
-    __book_table__ = 'books_table'
+    __book_table__ = 'books'
     
     
     def __init__(self, host, port, database, username, password):

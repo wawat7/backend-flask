@@ -27,8 +27,6 @@ def create_app():
     database.connect()
     
     
-    # bookRepository = BookRepository(database)
-    
     app = Flask(__name__)
     api = Api(app)
 
