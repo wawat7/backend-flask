@@ -32,7 +32,6 @@ class MongoDB(AbstractDatabase):
         }
 
     def find_books(self):
-        print(self.client.books.find())
         return [format_book(self.normalize(book)) for book in self.client.books.find()]
     
     def create_book(self, book: CreateBookSchema):

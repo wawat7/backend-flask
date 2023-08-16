@@ -2,6 +2,14 @@
 version: "3.9"
 
 services:
+  mongo:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongo
+      MONGO_INITDB_ROOT_PASSWORD: mongo
+    networks:
+      - mynet
+
   api:
     build:
       context: .
@@ -14,8 +22,8 @@ services:
       - "4000:8080"
     networks:
       - mynet
+    depends_on:
+      - mongo
 
 networks:
   mynet:
-    external: true
-    name: mongo_connection

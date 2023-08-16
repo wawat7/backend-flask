@@ -22,7 +22,6 @@ def init_sql(env):
     
     
 def init_database(env):
-    print(env['DATABASE_USED'])
     if env['DATABASE_USED'] == 'mongo':
         return init_mongo(env)
     else:
