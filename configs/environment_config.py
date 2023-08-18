@@ -19,4 +19,5 @@ def get_environment_variables():
         "MONGO_PASSWORD": getenv("MONGO_PASSWORD"),
         "MONGO_PORT": getenv("MONGO_PORT"),
         "DEBUG_MODE": getenv("DEBUG_MODE"),
+        "JWT_SECRET_KEY": getenv("JWT_SECRET_KEY"),
     }

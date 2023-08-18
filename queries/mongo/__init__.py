@@ -4,6 +4,8 @@ from adapter.formatter.book_formatter import format_book
 from schemas.book.create_book_schema import CreateBookSchema
 from schemas.book.update_book_schema import UpdateBookSchema
 from bson.objectid import ObjectId
+from schemas.user.create_user_schema import CreateUserSchema
+
 class MongoDB(AbstractDatabase):
     def __init__(self, host, port, database, username, password):
         self.host = host
@@ -60,6 +62,26 @@ class MongoDB(AbstractDatabase):
     def delete_book_by_id(self, id: str):
         return self.client.books.delete_one({
             "_id": ObjectId(id)
+        })
+        
+    def create_user(self, user: CreateUserSchema):
+        return self.client.users.insert_one({
+            "name": user.name,
+            "username": user.username,
+            "password": user.password,
+            "email": user.email,
+            "created_at": user.created_at,
+            "updated_at": user.updated_at
+        }).inserted_id
+        
+    def find_by_id_user(self, id: str):
+        return self.client.users.find_one({
+            "_id": ObjectId(id)
+        })
+        
+    def find_by_username_user(self, username: str):
+        return self.client.users.find_one({
+            "username": username
         })
     
     
